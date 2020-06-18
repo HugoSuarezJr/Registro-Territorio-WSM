@@ -6,5 +6,10 @@ router.get('/', (req, res, next) => {
         message: 'No Tocar'
     })
 });
+router.get('/Profile', (req, res, next) => {
+    res.json({
+        message: 'Helloooooo'
+    })
+});
 
 module.exports = router;

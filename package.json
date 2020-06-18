@@ -2,8 +2,8 @@
   "name": "notocarwebapp",
   "version": "1.0.0",
   "description": "This is an application that allows an organization keep record of those who wish not to be contacted via in-person, by phone, or by letter.",
-  "main": "index.js",
-  "proxy": "http://localhost:5000",
+  "main": "app.js",
+  "proxy": "http://localhost:3000",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
