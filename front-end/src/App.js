@@ -26,6 +26,7 @@ class App extends Component {
     return (
       <div className="App">
       <h1>No Tocar Web App</h1>
+      <p>I hope that the end product will allow us to create a dynamic do not call list to add, delete, and edit the list with ease but accessible to elders that obtain password.</p>
       <h4>{this.state.territory}</h4>
       </div>
     );
