@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Axios from 'axios'
 
@@ -7,6 +6,9 @@ import Axios from 'axios'
 class App extends Component {
 
   state = {
+    name: '',
+    address: '',
+    phone: '',
     territory: '',
     data: '',
     contacts: [],
@@ -17,7 +19,7 @@ class App extends Component {
     let res = await Axios.get('http://localhost:5000')
     console.log(res)
 
-    let res2 = await Axios.get('http://localhost:5000/Do-Not-Call-Contacts')
+    let res2 = await Axios.get('http://localhost:5000/Contacts')
     console.log(res2)
     this.setState({
       territory: res.data.message,
@@ -27,19 +29,23 @@ class App extends Component {
 
 
   sendMessageToServer = async () => {
-    let res = await Axios.post('http://localhost:5000/Do-Not-Call-Contacts', this.state);
+    let res = await Axios.post('http://localhost:5000/Contacts', this.state);
     console.log(res)
+
+    let newContacts = [...this.state.contacts]
+    newContacts.push({name: this.state.name, address: this.state.address, phone: this.state.phone})
 
     this.setState({
       data: res.data.message,
-      contactId: res.data.newContactId
+      contactId: res.data.newContactId,
+      contacts: newContacts
     })
   }
 
   doNotCallList = () => {
     return this.state.contacts.map(contact => {
      return <div key={contact._id}>
-     <div style={{backgroundColor: 'lightblue', maxWidth: "500px"}}>{contact.name} | {contact.address}</div>
+     <div>{contact.name} | {contact.address} | {contact.phone}</div>
     
      <br/>
      </div>
@@ -71,11 +77,9 @@ class App extends Component {
       <h6>The new do not call contact with the ID of "{this.state.contactId}" has been added!</h6> 
       </>
       : <h4>Add Contact</h4> }
-      <div style={{textAlign: 'center'}}>
+      <div>
       {this.doNotCallList()}
       </div>
-
-      
       </div>
     );
   }
