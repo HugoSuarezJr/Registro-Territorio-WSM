@@ -46,10 +46,16 @@ class App extends Component {
     return this.state.contacts.map(contact => {
      return <div key={contact._id}>
      <div>{contact.name} | {contact.address} | {contact.phone}</div>
-    
+     <button onClick={this.deleteContact}>Delete Hugo</button>
      <br/>
      </div>
     })
+  }
+
+  deleteContact = async () => {
+    let res = await Axios.post('http://localhost:5000/Delete', "5eed10a2ff071c0aebae2f7c")
+
+    console.log(res)
   }
 
   saveTyping = (e) => {
@@ -64,25 +70,10 @@ class App extends Component {
       <h1>No Tocar Web App</h1>
       <p>I hope that the end product will allow us to create a dynamic do not call list to add, delete, and edit the list with ease but accessible to elders that obtain password.</p>
       <h4>{this.state.territory}</h4>
-      
-      <form action="/books/edit" method="post">
-  <label for="">Title:</label>
-  <input type="text" name="title"/>
-
-  <label for="">Author:</label>
-  <input type="text" name="author"/>
-
-  <label for="">Description:</label>
-  <input type="text" name="description"/>
-
-  <label for="">Rate:</label>
-  <input type="number" name="rating"/>
-
-  <button type="submit">EDIT</button>
-         </form>
 
          <br/>
 
+         
 
       <input type="text" placeholder="name" name="name" onChange={this.saveTyping}></input>
       <input type="text" placeholder="address" name="address" onChange={this.saveTyping}></input>
