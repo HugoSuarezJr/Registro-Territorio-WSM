@@ -28,10 +28,14 @@ router.post('/Contacts', (req, res, next) => {
 // Delete Contact function
 router.post('/Delete', (req, res, next) => {
     console.log(req.body)
+    let id = req.body._id
     Contact.findByIdAndDelete(id, function (err) {
         if(err) console.log(err);
         console.log("Successful deletion");
       });
+      res.json({
+          Deletion: "Successful"
+      })
 })
 
 

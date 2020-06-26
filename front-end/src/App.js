@@ -6,10 +6,6 @@ import Axios from 'axios'
 class App extends Component {
 
   state = {
-    name: '',
-    address: '',
-    phone: '',
-    territory: '',
     data: '',
     contacts: [],
     contactId: ''
@@ -33,7 +29,7 @@ class App extends Component {
     console.log(res)
 
     let newContacts = [...this.state.contacts]
-    newContacts.push({name: this.state.name, address: this.state.address, phone: this.state.phone})
+    newContacts.push({_id: res.data.newContactId, territoryNum: this.state.territoryNum, name: this.state.name, houseNumber: this.state.houseNumber, street: this.state.street, city: this.state.city, zipCode: this.state.zipCode, phone: this.state.phone})
 
     this.setState({
       data: res.data.message,
@@ -45,17 +41,24 @@ class App extends Component {
   doNotCallList = () => {
     return this.state.contacts.map(contact => {
      return <div key={contact._id}>
-     <div>{contact.name} | {contact.address} | {contact.phone}</div>
-     <button onClick={this.deleteContact}>Delete Hugo</button>
+     <div>{contact.territoryNum} | {contact.name} | {contact.houseNumber} {contact.street} {contact.city} {contact.zipCode} | {contact.phone}</div>
+     <button id={contact._id} name={contact.name} onClick={this.deleteContact}>Delete Contact</button>
      <br/>
      </div>
     })
   }
 
-  deleteContact = async () => {
-    let res = await Axios.post('http://localhost:5000/Delete', "5eed10a2ff071c0aebae2f7c")
-
+  deleteContact = async (e) => {
+    let id = e.target.id
+    let res = await Axios.post('http://localhost:5000/Delete',{_id: id})
     console.log(res)
+
+    let newContacts = [...this.state.contacts]
+    newContacts.splice(newContacts.findIndex(x => x._id === id), 1)
+    console.log(newContacts)
+    this.setState({
+      contacts: newContacts
+    })
   }
 
   saveTyping = (e) => {
@@ -73,14 +76,21 @@ class App extends Component {
 
          <br/>
 
-         
-
+      <input type="number" placeholder="# de Territorio" name="territoryNum" onChange={this.saveTyping} required></input>
       <input type="text" placeholder="name" name="name" onChange={this.saveTyping}></input>
-      <input type="text" placeholder="address" name="address" onChange={this.saveTyping}></input>
+      <input type="number" placeholder="# de Casa" name="houseNumber" onChange={this.saveTyping} required></input>
+      <input type="text" placeholder="Calle" name="street" onChange={this.saveTyping} required></input>
+      <input list="city" type="text" placeholder="Ciudad" name="city" onChange={this.saveTyping} required></input>
+        <datalist id="city">
+          <option value="Miramar, FL"/>
+          <option value="Pembroke Pines, FL"/>
+        </datalist>
+      <input type="text" placeholder="Zip Code" name="zipCode" onChange={this.saveTyping} required></input>
       <input type="text" placeholder="phone" name="phone" onChange={this.saveTyping}></input>
       <button onClick={this.sendMessageToServer}>Save New Contact to database</button>
       
       { this.state.data === 'success' ? 
+
       <>
       <h5>Your Post to database is: {this.state.data}</h5>
       <h6>The new do not call contact with the ID of "{this.state.contactId}" has been added!</h6> 
