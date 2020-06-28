@@ -21,7 +21,7 @@ router.get('/Contacts', (req, res, next) => {
 router.post('/Contacts', (req, res, next) => {
     console.log('Do not call', req.body)
     Contact.create(req.body).then(response =>{
-        res.json({message: "success", newContactId: response._id})
+        res.json({message: "success", newContactId: response._id, newHouse: response.houseNumber, newStreet: response.street})
     }).catch(err => res.json({err}))
 })
 

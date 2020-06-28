@@ -8,7 +8,8 @@ class App extends Component {
   state = {
     data: '',
     contacts: [],
-    contactId: ''
+    contactId: '',
+    openAddContactForm: false
   }
 
   async componentDidMount() {
@@ -34,7 +35,9 @@ class App extends Component {
     this.setState({
       data: res.data.message,
       contactId: res.data.newContactId,
-      contacts: newContacts
+      newHouse: `${res.data.newHouse} ${res.data.newStreet}`,
+      contacts: newContacts,
+      openAddContactForm: !this.state.openAddContactForm
     })
   }
 
@@ -67,15 +70,30 @@ class App extends Component {
     })
   }
 
+  openAddContactForm = () => {
+    this.setState({
+      openAddContactForm: !this.state.openAddContactForm
+    })
+  }
+
   render() {
     return (
       <div className="App">
-      <h1>No Tocar Web App</h1>
-      <p>I hope that the end product will allow us to create a dynamic do not call list to add, delete, and edit the list with ease but accessible to elders that obtain password.</p>
-      <h4>{this.state.territory}</h4>
+      <h1>West Spanish Miramar Congregation</h1>
+      <h2>Registro de No Tocar</h2>
 
          <br/>
 
+         { this.state.data === 'success' ? 
+
+      <>
+      <h5> {this.state.newHouse} ha sido añadido, gracias! - has been added, thank you!</h5> 
+      </>
+      : "" }
+
+<div>
+      {this.state.openAddContactForm ? 
+      <>
       <input type="number" placeholder="# de Territorio" name="territoryNum" onChange={this.saveTyping} required></input>
       <input type="text" placeholder="name" name="name" onChange={this.saveTyping}></input>
       <input type="number" placeholder="# de Casa" name="houseNumber" onChange={this.saveTyping} required></input>
@@ -87,18 +105,16 @@ class App extends Component {
         </datalist>
       <input type="text" placeholder="Zip Code" name="zipCode" onChange={this.saveTyping} required></input>
       <input type="text" placeholder="phone" name="phone" onChange={this.saveTyping}></input>
-      <button onClick={this.sendMessageToServer}>Save New Contact to database</button>
-      
-      { this.state.data === 'success' ? 
+      <button onClick={this.sendMessageToServer}>Save New Contact to database</button> 
+      </> : 
+      <button style={{backgroundColor: "lightgreen"}} onClick={this.openAddContactForm}>Añadir Casa / Add House</button> }
+</div>
 
-      <>
-      <h5>Your Post to database is: {this.state.data}</h5>
-      <h6>The new do not call contact with the ID of "{this.state.contactId}" has been added!</h6> 
-      </>
-      : <h4>Add Contact</h4> }
-      <div>
+      <br/>
+      
+     <div>
       {this.doNotCallList()}
-      </div>
+     </div>
       </div>
     );
   }
