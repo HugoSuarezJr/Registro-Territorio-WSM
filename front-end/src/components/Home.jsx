@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Axios from 'axios'
+import { Link } from 'react-router-dom'
 
 
 class Home extends Component {
@@ -28,7 +29,7 @@ class Home extends Component {
         console.log(res)
     
         let newContacts = [...this.state.contacts]
-        newContacts.push({_id: res.data.newContactId, territoryNum: this.state.territoryNum, name: this.state.name, houseNumber: this.state.houseNumber, street: this.state.street, city: this.state.city, zipCode: this.state.zipCode, phone: this.state.phone})
+        newContacts.push({_id: res.data.newContactId, territoryNum: this.state.territoryNum, name: this.state.name, houseNumber: this.state.houseNumber, street: this.state.street, city: this.state.city, zipCode: this.state.zipCode, phone: this.state.phone, date: this.state.date})
     
         this.setState({
           data: res.data.message,
@@ -42,7 +43,7 @@ class Home extends Component {
       doNotCallList = () => {
         return this.state.contacts.map(contact => {
          return <div key={contact._id}>
-         <div>{contact.territoryNum} | {contact.name} | {contact.houseNumber} {contact.street} {contact.city} {contact.zipCode} | {contact.phone}</div>
+         <div><Link to={`/HouseInfo/${contact._id}`}>{contact.territoryNum} | {contact.name} | {contact.houseNumber} {contact.street} {contact.city} {contact.zipCode} | {contact.phone} | {contact.date}</Link></div>
          <button id={contact._id} name={contact.name} onClick={this.deleteContact}>Delete Contact</button>
          <br/>
          </div>
@@ -93,8 +94,8 @@ class Home extends Component {
 <div>
       {this.state.openAddContactForm ? 
       <>
-      <input type="number" placeholder="# de Territorio" name="territoryNum" onChange={this.saveTyping} required></input>
-      <input type="text" placeholder="name" name="name" onChange={this.saveTyping}></input>
+      <input type="text" placeholder="# de Territorio" name="territoryNum" onChange={this.saveTyping} required></input>
+      <input type="text" placeholder="Nombre" name="name" onChange={this.saveTyping}></input>
       <input type="number" placeholder="# de Casa" name="houseNumber" onChange={this.saveTyping} required></input>
       <input type="text" placeholder="Calle" name="street" onChange={this.saveTyping} required></input>
       <input list="city" type="text" placeholder="Ciudad" name="city" onChange={this.saveTyping} required></input>
@@ -103,7 +104,8 @@ class Home extends Component {
           <option value="Pembroke Pines, FL"/>
         </datalist>
       <input type="text" placeholder="Zip Code" name="zipCode" onChange={this.saveTyping} required></input>
-      <input type="text" placeholder="phone" name="phone" onChange={this.saveTyping}></input>
+      <input type="text" placeholder="# de Telefono" name="phone" onChange={this.saveTyping}></input>
+      <input type="date" placeholder="Fecha" name="date" onChange={this.saveTyping} required></input>
       <button onClick={this.sendMessageToServer}>Save New Contact to database</button> 
       </> : 
       <button style={{backgroundColor: "lightgreen"}} onClick={this.openAddContactForm}>Añadir Casa / Add House</button> }

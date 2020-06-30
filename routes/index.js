@@ -14,7 +14,13 @@ router.get('/', (req, res, next) => {
 router.get('/Contacts', (req, res, next) => {
     Contact.find().then(contactsFromDB => {
     res.json({ contacts: contactsFromDB})
+    })
 })
+
+router.get('/HouseInfo/:id', (req,res)=>{
+    Contact.findById(req.params.id).then(contact =>{
+      res.json({contact})
+    })
 })
 
 // Add Contact function 
