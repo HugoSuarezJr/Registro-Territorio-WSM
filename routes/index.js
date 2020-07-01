@@ -17,6 +17,7 @@ router.get('/Contacts', (req, res, next) => {
     })
 })
 
+// Display Selected Contact
 router.get('/HouseInfo/:id', (req,res)=>{
     Contact.findById(req.params.id).then(contact =>{
       res.json({contact})
@@ -42,6 +43,24 @@ router.post('/Delete', (req, res, next) => {
       res.json({
           Deletion: "Successful"
       })
+})
+
+// Delete Contact function
+router.post('/Update', (req, res, next) => {
+    console.log(req.body)
+    let id = req.body.contact._id
+    let changes = req.body
+    Contact.findByIdAndUpdate(
+        id,
+        changes,
+        function(err, result) {
+          if (err) {
+            res.send(err);
+          } else {
+            res.send(result);
+          }
+        }
+      );
 })
 
 
