@@ -44,14 +44,14 @@ class Home extends Component {
         return this.state.contacts.map(contact => {
          return <div key={contact._id}>
          <div><Link to={`/HouseInfo/${contact._id}`}>{contact.territoryNum} | {contact.name} | {contact.houseNumber} {contact.street} {contact.city} {contact.zipCode} | {contact.phone} | {contact.date}</Link></div>
-         <button id={contact._id} name={contact.name} onClick={this.deleteContact}>Delete Contact</button>
+         <button id={contact._id} name={contact.name} style={{backgroundColor: "red"}} onClick={this.deleteContact}>X</button>
          <br/>
          </div>
         })
       }
     
       deleteContact = async (e) => {
-    
+        if(window.confirm("Do you really want to DELETE?")){
         let id = e.target.id
         let res = await Axios.post('http://localhost:5000/Delete',{_id: id})
         console.log(res)
@@ -62,6 +62,7 @@ class Home extends Component {
         this.setState({
           contacts: newContacts
         })
+      }
       }
     
       saveTyping = (e) => {
