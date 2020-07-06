@@ -46,6 +46,15 @@ async componentDidMount(){
         })
     }
 
+    deleteContact = async () => {
+      if(window.confirm("Do you really want to leave?")){
+        let res = await Axios.post('http://localhost:5000/Delete',this.state.contact)
+      console.log(res)
+      this.props.history.push('/')
+      }
+      
+    }
+
 
     render() {
         return (
@@ -135,11 +144,10 @@ async componentDidMount(){
                 <h4>{this.state.contact.date}</h4>
                 <h4> Terr. #{this.state.contact.territoryNum} </h4>
                 <h4>
-                  {this.state.contact.houseNumber} {this.state.contact.street}
-                  {this.state.contact.city} {this.state.contact.zipCode}
+                  {this.state.contact.houseNumber} {this.state.contact.street} {this.state.contact.city} {this.state.contact.zipCode}
                 </h4>
                 <h4> {this.state.contact.phone} </h4>
-                <button onClick={this.showForm}>Edit</button>
+                <button onClick={this.showForm}>Edit</button><button onClick={this.deleteContact}>Delete</button>
               </>
             )}
           </div>
