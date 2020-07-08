@@ -24,7 +24,8 @@ class Home extends Component {
       }
     
     
-      sendMessageToServer = async () => {
+      sendMessageToServer = async (e) => {
+        e.preventDefault()
         let res = await Axios.post('http://localhost:5000/Contacts', this.state);
         console.log(res)
     
@@ -96,7 +97,7 @@ class Home extends Component {
 
 <div>
       {this.state.openAddContactForm ? 
-      <>
+      <form onSubmit={this.sendMessageToServer}>
       <input type="text" placeholder="# de Territorio" name="territoryNum" onChange={this.saveTyping} required></input>
       <input type="text" placeholder="Nombre" name="name" onChange={this.saveTyping}></input>
       <input type="number" placeholder="# de Casa" name="houseNumber" onChange={this.saveTyping} required></input>
@@ -109,9 +110,9 @@ class Home extends Component {
       <input type="text" placeholder="Zip Code" name="zipCode" onChange={this.saveTyping} required></input>
       <input type="text" placeholder="# de Telefono" name="phone" onChange={this.saveTyping}></input>
       <input type="date" placeholder="Fecha" name="date" onChange={this.saveTyping} required></input>
-      <button onClick={this.sendMessageToServer}>Save New Contact to database</button> 
-      </> : 
-      <button style={{backgroundColor: "lightgreen"}} onClick={this.openAddContactForm}>Añadir Casa / Add House</button> }
+      <input type="submit" value="Save New Contact to database" />
+      </form> : 
+      <button style={{backgroundColor: "lightgreen"}} onClick={this.openAddContactForm}>Añadir Casa / Add House</button>}
 </div>
 
       <br/>

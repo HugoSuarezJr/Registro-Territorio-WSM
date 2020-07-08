@@ -42,17 +42,27 @@ async componentDidMount(){
         console.log(res)
 
         this.setState({
-            showForm: !this.state.showForm,
+            showForm: !this.state.showForm
         })
     }
 
     deleteContact = async () => {
       if(window.confirm("Do you really want to DELETE?")){
-        let res = await Axios.post('http://localhost:5000/Delete',this.state.contact)
-      console.log(res)
-      this.props.history.push('/')
+      await Axios.post('http://localhost:5000/Delete',this.state.contact).then(() => {
+        this.props.history.push('/')
+      })
       }
       
+    }
+
+    cancelButton = async () => {
+      let res = await Axios.get(`http://localhost:5000/HouseInfo/${this.props.match.params.id}`)
+    console.log(res)
+    this.setState({
+        contact: res.data.contact,
+        name: res.data.contact.name,
+        showForm: !this.state.showForm
+    })
     }
 
 
@@ -64,6 +74,7 @@ async componentDidMount(){
             </Link>
             <h1>House Info</h1>
             {this.state.showForm ? (
+              <>
               <form onSubmit={this.updateContact}>
                 <input
                   type="text"
@@ -138,6 +149,8 @@ async componentDidMount(){
                   value="Update"
                 ></input>
               </form>
+              <button onClick={this.cancelButton}>Cancel</button>
+              </>
             ) : (
               <>
                 <h3>{this.state.contact.name}</h3>
