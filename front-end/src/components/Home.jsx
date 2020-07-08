@@ -51,7 +51,9 @@ class Home extends Component {
       }
     
       deleteContact = async (e) => {
-        if(window.confirm("Do you really want to DELETE?")){
+        if(window.confirm(`
+        Are you sure you want to DELETE?
+        This cannot be undone.`)){
         let id = e.target.id
         let res = await Axios.post('http://localhost:5000/Delete',{_id: id})
         console.log(res)
