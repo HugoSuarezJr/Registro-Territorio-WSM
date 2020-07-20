@@ -110,6 +110,7 @@ class Home extends Component {
       <input type="text" placeholder="Zip Code" name="zipCode" onChange={this.saveTyping} required></input>
       <input type="text" placeholder="# de Telefono" name="phone" onChange={this.saveTyping}></input>
       <input type="date" placeholder="Fecha" name="date" onChange={this.saveTyping} required></input>
+      <input type="text" placeholder="Notas" name="notes" onChange={this.saveTyping} ></input>
       <input type="submit" value="Save New Contact to database" />
       </form> : 
       <button style={{backgroundColor: "lightgreen"}} onClick={this.openAddContactForm}>Añadir Casa / Add House</button>}

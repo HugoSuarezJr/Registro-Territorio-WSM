@@ -145,6 +145,13 @@ async componentDidMount(){
                   required
                 ></input>
                 <input
+                  type="text"
+                  placeholder="Notas"
+                  name="notes"
+                  onChange={this.saveTyping}
+                  defaultValue={this.state.contact.notes}
+                ></input>
+                <input
                   type="submit"
                   value="Update"
                 ></input>
@@ -160,6 +167,7 @@ async componentDidMount(){
                   {this.state.contact.houseNumber} {this.state.contact.street} {this.state.contact.city} {this.state.contact.zipCode}
                 </h4>
                 <h4> {this.state.contact.phone} </h4>
+                <p>{this.state.contact.notes}</p>
                 <button onClick={this.showForm}>Edit</button><button style={{backgroundColor: "red"}} onClick={this.deleteContact}>Delete</button>
               </>
             )}
