@@ -50,6 +50,13 @@ class Home extends Component {
          </div>
         })
       }
+
+      sortedList = () => {
+        let contactsSortedCopy = [...this.state.contacts].sort((a,b) => a.territoryNum - b.territoryNum)
+        this.setState({
+          contacts: contactsSortedCopy
+        })
+      }
     
       deleteContact = async (e) => {
         if(window.confirm(`
@@ -117,6 +124,8 @@ class Home extends Component {
 </div>
 
       <br/>
+
+      <button onClick={this.sortedList}>Sort By Territory Number</button>
       
      <div>
       {this.doNotCallList()}
