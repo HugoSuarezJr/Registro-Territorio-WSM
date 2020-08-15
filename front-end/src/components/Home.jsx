@@ -51,8 +51,15 @@ class Home extends Component {
         })
       }
 
-      sortedList = () => {
+      sortByTerNum = () => {
         let contactsSortedCopy = [...this.state.contacts].sort((a,b) => a.territoryNum - b.territoryNum)
+        this.setState({
+          contacts: contactsSortedCopy
+        })
+      }
+
+      sortByDate = () => {
+        let contactsSortedCopy = [...this.state.contacts].sort((a,b) => a.date - b.date)
         this.setState({
           contacts: contactsSortedCopy
         })
@@ -125,7 +132,8 @@ class Home extends Component {
 
       <br/>
 
-      <button onClick={this.sortedList}>Sort By Territory Number</button>
+      <button onClick={this.sortByTerNum}>Sort By Territory Number</button>
+      <button onClick={this.sortByDate}>Sort By Date</button>
       
      <div>
       {this.doNotCallList()}
