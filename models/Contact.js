@@ -10,7 +10,7 @@ const contactSchema = new Schema({
     city: String,
     zipCode: String,
     phone: String,
-    date: String,
+    date: Date,
     notes: String
 },
 {
