@@ -2,6 +2,16 @@ import React, { Component } from 'react';
 import Axios from 'axios'
 import { Link } from 'react-router-dom'
 
+function getAge(dateString) {
+  var today = new Date();
+  var birthDate = new Date(dateString);
+  var age = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+  }
+  return age;
+}
 
 class Home extends Component {
   state = {
@@ -54,7 +64,7 @@ class Home extends Component {
     return this.state.contacts.map((contact) => {
       return (
         <div key={contact._id}>
-          {new Date(contact.date) > new Date("2020-07-09") ? (
+          {getAge(contact.date) < 2 ? (
             <div>
               <Link
                 to={`/HouseInfo/${contact._id}`}
