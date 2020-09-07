@@ -87,6 +87,7 @@ class Home extends Component {
               </Link>
             </div>
           )}
+          <button id={contact.date} onClick={this.getMonth}>getMonth</button>
           <button
             id={contact._id}
             name={contact.name}
@@ -100,6 +101,13 @@ class Home extends Component {
       );
     });
   };
+
+  getMonth = (e) => {
+    var dt = new Date(e.target.id);
+          var dtm = dt.getMonth();
+          var dty = dt.getFullYear();
+          console.log(dtm + "/" + dty)
+  }
 
   sortByTerNum = () => {
     let contactsSortedCopy = [...this.state.contacts].sort(
