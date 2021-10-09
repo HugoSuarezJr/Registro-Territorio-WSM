@@ -5,10 +5,7 @@ const Schema = mongoose.Schema
 const contactSchema = new Schema({
     territoryNum: String,
     name: String,
-    houseNumber: String,
-    street: String,
-    city: String,
-    zipCode: String,
+    territoryName: String,
     phone: String,
     date: Date,
     notes: String

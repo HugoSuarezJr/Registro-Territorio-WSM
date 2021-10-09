@@ -2,6 +2,15 @@ import React, { Component } from 'react';
 import Axios from 'axios'
 import { Link } from 'react-router-dom'
 
+function dateFormat(date) {
+  let mydate = new Date(date.replace(/-/g, '\/').replace(/T.+/, ''))
+  var month = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"][mydate.getMonth()];
+  var str = month + ' ' + mydate.getDate() + ', ' + mydate.getFullYear();
+  console.log(date)
+  console.log(mydate)
+  return str
+}
 
 class HouseInfo extends Component {
 
@@ -15,9 +24,12 @@ async componentDidMount(){
     console.log(res)
     this.setState({
         contact: res.data.contact,
-        name: res.data.contact.name
+        name: res.data.contact.name,
+        date: dateFormat(res.data.contact.date)
     })
+    console.log(this.state.date)
 }
+
 
     showForm = () => {
         this.setState({
@@ -68,11 +80,13 @@ async componentDidMount(){
 
     render() {
         return (
+          
           <div>
+          {/* {this.showDate()} */}
             <Link to="/">
               <button>{"<---"}</button>
             </Link>
-            <h1>House Info</h1>
+            <h1>Territory Info</h1>
             {this.state.showForm ? (
               <>
               <form onSubmit={this.updateContact}>
@@ -93,40 +107,11 @@ async componentDidMount(){
                   onChange={this.saveTyping}
                 ></input>
                 <input
-                  type="number"
-                  placeholder="# de Casa"
-                  name="houseNumber"
-                  onChange={this.saveTyping}
-                  defaultValue={this.state.contact.houseNumber}
-                  required
-                ></input>
-                <input
                   type="text"
-                  placeholder="Calle"
-                  name="street"
+                  placeholder="Nombre de Territorio"
+                  name="territoryName"
                   onChange={this.saveTyping}
-                  defaultValue={this.state.contact.street}
-                  required
-                ></input>
-                <input
-                  list="city"
-                  type="text"
-                  placeholder="Ciudad"
-                  name="city"
-                  onChange={this.saveTyping}
-                  defaultValue={this.state.contact.city}
-                  required
-                ></input>
-                <datalist id="city">
-                  <option value="Miramar, FL" />
-                  <option value="Pembroke Pines, FL" />
-                </datalist>
-                <input
-                  type="text"
-                  placeholder="Zip Code"
-                  name="zipCode"
-                  onChange={this.saveTyping}
-                  defaultValue={this.state.contact.zipCode}
+                  defaultValue={this.state.contact.territoryName}
                   required
                 ></input>
                 <input
@@ -161,10 +146,10 @@ async componentDidMount(){
             ) : (
               <>
                 <h3>{this.state.contact.name}</h3>
-                <h4>{this.state.contact.date}</h4>
+                <h4>{this.state.date}</h4>
                 <h4> Terr. #{this.state.contact.territoryNum} </h4>
                 <h4>
-                  {this.state.contact.houseNumber} {this.state.contact.street} {this.state.contact.city} {this.state.contact.zipCode}
+                  {this.state.contact.territoryName}
                 </h4>
                 <h4> {this.state.contact.phone} </h4>
                 <p>{this.state.contact.notes}</p>

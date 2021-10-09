@@ -2,15 +2,25 @@ import React, { Component } from 'react';
 import Axios from 'axios'
 import { Link } from 'react-router-dom'
 
+function dateFormat(date) {
+  let mydate = new Date(date.replace(/-/g, '\/').replace(/T.+/, ''))
+  var month = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"][mydate.getMonth()];
+  var str = month + ' ' + mydate.getDate() + ', ' + mydate.getFullYear();
+  console.log(date)
+  console.log(mydate)
+  return str
+}
+
 function getAge(dateString) {
   var today = new Date();
   var birthDate = new Date(dateString);
   var age = today.getFullYear() - birthDate.getFullYear();
   var m = today.getMonth() - birthDate.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
+  if (age > 0) {
+      m = 4;
   }
-  return age;
+  return m;
 }
 
 class Home extends Component {
@@ -43,10 +53,7 @@ class Home extends Component {
       _id: res.data.newContactId,
       territoryNum: this.state.territoryNum,
       name: this.state.name,
-      houseNumber: this.state.houseNumber,
-      street: this.state.street,
-      city: this.state.city,
-      zipCode: this.state.zipCode,
+      territoryName: this.state.territoryName,
       phone: this.state.phone,
       date: this.state.date,
     });
@@ -54,7 +61,7 @@ class Home extends Component {
     this.setState({
       data: res.data.message,
       contactId: res.data.newContactId,
-      newHouse: `${res.data.newHouse} ${res.data.newStreet}`,
+      newAssignment: `${res.data.newAssignment} ${res.data.newName}`,
       contacts: newContacts,
       openAddContactForm: !this.state.openAddContactForm,
     });
@@ -64,15 +71,14 @@ class Home extends Component {
     return this.state.contacts.map((contact) => {
       return (
         <div key={contact._id}>
-          {getAge(contact.date) < 2 ? (
+          {getAge(contact.date) < 4 ? (
             <div>
               <Link
                 to={`/HouseInfo/${contact._id}`}
-                style={{ textDecoration: "none", color: "blue" }}
+                style={{ textDecoration: "none", color: "green" }}
               >
-                {contact.territoryNum} | {contact.name} | {contact.houseNumber}
-                {contact.street} {contact.city} {contact.zipCode} |
-                {contact.phone} | {contact.date}
+                {contact.territoryNum} | {contact.name} | {contact.territoryName} |
+                {contact.phone} | {dateFormat(contact.date)}
               </Link>
             </div>
           ) : (
@@ -81,13 +87,11 @@ class Home extends Component {
                 to={`/HouseInfo/${contact._id}`}
                 style={{ textDecoration: "none", color: "red" }}
               >
-                {contact.territoryNum} | {contact.name} | {contact.houseNumber}
-                {contact.street} {contact.city} {contact.zipCode} |
-                {contact.phone} | {contact.date}
+                {contact.territoryNum} | {contact.name} | {contact.territoryName} |
+                {contact.phone} | {dateFormat(contact.date)}
               </Link>
             </div>
           )}
-          <button id={contact.date} onClick={this.getMonth}>getMonth</button>
           <button
             id={contact._id}
             name={contact.name}
@@ -102,12 +106,6 @@ class Home extends Component {
     });
   };
 
-  getMonth = (e) => {
-    var dt = new Date(e.target.id);
-          var dtm = dt.getMonth();
-          var dty = dt.getFullYear();
-          console.log(dtm + "/" + dty)
-  }
 
   sortByTerNum = () => {
     let contactsSortedCopy = [...this.state.contacts].sort(
@@ -165,7 +163,7 @@ class Home extends Component {
       <div>
         <div className="App">
           <h1>West Spanish Miramar Congregation</h1>
-          <h2>Registro de No Tocar</h2>
+          <h2>Registro de Territorios</h2>
 
           <br />
 
@@ -173,12 +171,12 @@ class Home extends Component {
             <>
               <h5>
                 {" "}
-                {this.state.newHouse} ha sido añadido, gracias! - has been
+                {this.state.newAssignment} ha sido añadido, gracias! - has been
                 added, thank you!
               </h5>
             </>
           ) : (
-            ""
+            "Welcome. Please enter information correctly."
           )}
 
           <div>
@@ -198,37 +196,10 @@ class Home extends Component {
                   onChange={this.saveTyping}
                 ></input>
                 <input
-                  type="number"
-                  placeholder="# de Casa"
-                  name="houseNumber"
-                  onChange={this.saveTyping}
-                  required
-                ></input>
-                <input
                   type="text"
-                  placeholder="Calle"
-                  name="street"
+                  placeholder="Nombre de Territorio"
+                  name="territoryName"
                   onChange={this.saveTyping}
-                  required
-                ></input>
-                <input
-                  list="city"
-                  type="text"
-                  placeholder="Ciudad"
-                  name="city"
-                  onChange={this.saveTyping}
-                  required
-                ></input>
-                <datalist id="city">
-                  <option value="Miramar, FL" />
-                  <option value="Pembroke Pines, FL" />
-                </datalist>
-                <input
-                  type="text"
-                  placeholder="Zip Code"
-                  name="zipCode"
-                  onChange={this.saveTyping}
-                  required
                 ></input>
                 <input
                   type="text"
@@ -256,7 +227,7 @@ class Home extends Component {
                 style={{ backgroundColor: "lightgreen" }}
                 onClick={this.openAddContactForm}
               >
-                Añadir Casa / Add House
+                Añadir Territorio / Add Territory
               </button>
             )}
           </div>

@@ -28,7 +28,7 @@ router.get('/HouseInfo/:id', (req,res)=>{
 router.post('/Contacts', (req, res, next) => {
     console.log('Do not call', req.body)
     Contact.create(req.body).then(response =>{
-        res.json({message: "success", newContactId: response._id, newHouse: response.houseNumber, newStreet: response.street})
+        res.json({message: "success", newContactId: response._id, newAssignment: response.territoryName, newName: response.name})
     }).catch(err => res.json({err}))
 })
 
